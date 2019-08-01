@@ -35,8 +35,8 @@
                         </div>
                         <div class="businesename">厅政务网系统</div>
                     </div>
-                    <div class="busineseBox1">
-                        <div class="close"></div>
+                    <div class="busineseBox1" @mouseenter="enter()" @mouseleave="leave()">
+                        <div class="close" v-if="chu==1"></div>
                         <div class="round">
                             <div class="Icon">
                                 <img src="../../../static/images/old.png" alt="">
@@ -80,13 +80,15 @@
                 <div class="title">全部业务系统</div>
                 <div class="allBusinese">
                     <div class="allBox">
-                        <div class="allBoxleft">
-                            <div class="allBoxtitle">商务服务</div>
-                            <div class="visits"><div class="fwl">访问量</div><div class="num">1024</div></div>
-                        </div>
-                        <div class="allBoxright">
-                            <img src="../../../static/images/xm1.png" alt="">
-                        </div>
+                        <router-link :to="{path:'../business/business'}">
+                            <div class="allBoxleft">
+                                <div class="allBoxtitle">商务服务</div>
+                                <div class="visits"><div class="fwl">访问量</div><div class="num">1024</div></div>
+                            </div>
+                            <div class="allBoxright">
+                                <img src="../../../static/images/xm1.png" alt="">
+                            </div>
+                        </router-link>
                     </div>
                     <div class="allBox">
                         <div class="allBoxleft">
@@ -152,18 +154,30 @@ function thousands(num){
 export default {
     data() {
         return {
-            times:null,
+            times:0,
+            see:0,
+            timeout:'',
+            chu:0
         }
     },
     mounted() {
-        this.setIntervals()
+        // this.on()
     },
     methods: {
-        setIntervals:function(){
+        enter(i){
             var that=this
-            that.times=setInterval(function(){
-                
+            this.see=1
+            this.timeout=setTimeout(function(){
+                if(that.see==1){
+                    that.chu=1
+                }
             },2000)
+        },
+        leave(){
+            var that=this
+            clearTimeout(that.timeout)
+            this.see=1
+            that.chu=0
         }
     },
     
